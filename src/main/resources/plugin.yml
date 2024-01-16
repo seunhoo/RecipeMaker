@@ -1,0 +1,4 @@
+name: RecipeMaker
+version: '${version}'
+main: org.recipemaker.RecipeMaker
+api-version: '1.20'
