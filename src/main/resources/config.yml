@@ -1,0 +1,4 @@
+recipe:
+  BLAZE_ROD:
+    recipe: "|","|","|"
+    stick: "|"
