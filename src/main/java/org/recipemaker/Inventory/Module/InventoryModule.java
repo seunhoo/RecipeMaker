@@ -15,6 +15,7 @@ import java.sql.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
@@ -53,29 +54,32 @@ public class InventoryModule {
         FileConfiguration config = plugin.getConfig();
         String main = "recipe";
         List<String> recipes = config.getStringList(main);
-        for (String recipe : recipes) {
+        for (String resultItem : recipes) {
+            List<String> stringList = config.getStringList(main + "/" + resultItem);
             HashMap<Character, Material> recipeSet = new HashMap<>();
-            List<String> stringList = config.getStringList(main + "/" + recipe);
-            for (String string : stringList) {
-                List<String> data = config.getStringList(main + "/" + recipe + "/" + string);
-                String[] qqq = null;
-                for (String sss : data) {
-                    if (sss.equals("recipe")) {
-                        qqq = sss.split(",");
+            String[] shape = null;
+            Material material = Material.getMaterial(resultItem);
+            assert  material != null;
+            ItemStack itemStack = new ItemStack(material,1);
+            for (String recipeOrData : stringList) {
+                List<String> data = config.getStringList(main + "/" + resultItem + "/" + recipeOrData);
+                for (String items : data) {
+                    if (items.equalsIgnoreCase("recipe")) {
+                        shape = items.split(",");
                     } else {
-                        String www = config.getString(main + "/" + recipe + "/" + string + "/" + sss);
-                        assert www != null;
-                        recipeSet.put(www.charAt(0), Material.getMaterial(sss));
+                        String recipeChar = config.getString(main + "/" + resultItem + "/" + recipeOrData + "/" + items);
+                        assert recipeChar != null;
+                        recipeSet.put(recipeChar.charAt(0),Material.getMaterial(items));
                     }
                 }
             }
-
+            setRecipe(plugin, itemStack, shape, recipeSet, resultItem);
         }
     }
 
     public void setRecipe(Plugin plugin, ItemStack itemStack, String[] shape, HashMap<Character, Material> material, String name) {
-        NamespacedKey customBlazeRodRecipe = new NamespacedKey(plugin, "Custom" + name);
-        ShapedRecipe recipe = new ShapedRecipe(customBlazeRodRecipe, itemStack).shape(shape);
+        NamespacedKey customRecipe = new NamespacedKey(plugin, "Custom" + name);
+        ShapedRecipe recipe = new ShapedRecipe(customRecipe, itemStack).shape(shape);
         for (Map.Entry<Character, Material> entry : material.entrySet()) {
             recipe.setIngredient(entry.getKey(), entry.getValue());
         }
