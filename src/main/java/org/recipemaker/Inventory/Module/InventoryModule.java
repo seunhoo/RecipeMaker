@@ -64,7 +64,7 @@ public class InventoryModule {
             for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem)).getKeys(false)) {
                 //Set<String> data = Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem + "." + recipeOrData)).getKeys(false);
                 if (recipeOrData.equalsIgnoreCase("recipe")) {
-                    shape = recipeOrData.split(",");
+                    shape = Objects.requireNonNull(config.getString(main + "." + resultItem + "." + recipeOrData)).split(",");
                 } else {
                     String recipeChar = config.getString(main + "." + resultItem + "." + recipeOrData);
                     assert recipeChar != null;
