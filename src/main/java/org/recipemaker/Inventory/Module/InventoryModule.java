@@ -62,7 +62,6 @@ public class InventoryModule {
             assert material != null;
             ItemStack itemStack = new ItemStack(material, 1);
             for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem)).getKeys(false)) {
-                //Set<String> data = Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem + "." + recipeOrData)).getKeys(false);
                 if (recipeOrData.equalsIgnoreCase("recipe")) {
                     shape = Objects.requireNonNull(config.getString(main + "." + resultItem + "." + recipeOrData)).split(",");
                 } else {
