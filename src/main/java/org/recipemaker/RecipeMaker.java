@@ -4,6 +4,7 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.recipemaker.Inventory.Command.InventoryCommand;
 import org.recipemaker.Inventory.Module.InventoryModule;
 
 public final class RecipeMaker extends JavaPlugin {
@@ -22,6 +23,8 @@ public final class RecipeMaker extends JavaPlugin {
         // Plugin startup logic
         this.adventure = BukkitAudiences.create(this);
         inventoryModule.getRecipeInConfig(this);
+
+        InventoryCommand inventoryCommand = new InventoryCommand(this);
     }
 
     @Override
