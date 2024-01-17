@@ -15,10 +15,7 @@ import org.recipemaker.Inventory.Enum.InventoryName;
 
 import java.io.File;
 import java.sql.Array;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
@@ -58,7 +55,7 @@ public class InventoryModule {
         plugin.saveConfig();
         FileConfiguration config = plugin.getConfig();
         String main = "recipe";
-        List<String> recipes = config.getStringList(main);
+        Set<String> recipes = config.getConfigurationSection(main).getKeys(false);
         for (String resultItem : recipes) {
             List<String> stringList = config.getStringList(main + "/" + resultItem);
             HashMap<Character, Material> recipeSet = new HashMap<>();
