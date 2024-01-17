@@ -4,13 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 import org.recipemaker.Inventory.Enum.InventoryName;
 
+import java.io.File;
 import java.sql.Array;
 import java.util.HashMap;
 import java.util.List;
@@ -51,9 +54,13 @@ public class InventoryModule {
     }
 
     public void getRecipeInConfig(Plugin plugin) {
-        FileConfiguration config = plugin.getConfig();
+//        FileConfiguration config = plugin.getConfig();
         String main = "recipe";
+        YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new File("config.yml"));
+        ConfigurationSection config = yamlConfiguration.getConfigurationSection(main);
+        assert config != null;
         List<String> recipes = config.getStringList(main);
+//        List<String> recipes = config.getStringList(main);
         for (String resultItem : recipes) {
             List<String> stringList = config.getStringList(main + "/" + resultItem);
             HashMap<Character, Material> recipeSet = new HashMap<>();

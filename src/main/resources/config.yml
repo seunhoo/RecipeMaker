@@ -1,4 +1,4 @@
 recipe:
   BLAZE_ROD:
-    recipe: "\"|\",\"|\",\"|\""
-    STICK: "|"
+    - recipe: "\"|\",\"|\",\"|\""
+    - STICK: "|"
