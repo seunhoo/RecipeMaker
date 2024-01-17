@@ -63,14 +63,14 @@ public class InventoryModule {
             assert  material != null;
             ItemStack itemStack = new ItemStack(material,1);
 
-            Set<String> stringList = Objects.requireNonNull(config.getConfigurationSection(main + "/" + resultItem)).getKeys(false);
+            Set<String> stringList = Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem)).getKeys(false);
             for (String recipeOrData : stringList) {
-                Set<String> data = Objects.requireNonNull(config.getConfigurationSection(main + "/" + resultItem + "/" + recipeOrData)).getKeys(false);
+                Set<String> data = Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem + "." + recipeOrData)).getKeys(false);
                 for (String items : data) {
                     if (items.equalsIgnoreCase("recipe")) {
                         shape = items.split(",");
                     } else {
-                        String recipeChar = config.getString(main + "/" + resultItem + "/" + recipeOrData + "/" + items);
+                        String recipeChar = config.getString(main + "." + resultItem + "." + recipeOrData + "." + items);
                         assert recipeChar != null;
                         recipeSet.put(recipeChar.charAt(0),Material.getMaterial(items));
                     }
