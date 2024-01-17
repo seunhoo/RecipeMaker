@@ -55,20 +55,18 @@ public class InventoryModule {
         plugin.saveConfig();
         FileConfiguration config = plugin.getConfig();
         String main = "recipe";
-        Set<String> recipes = Objects.requireNonNull(config.getConfigurationSection(main)).getKeys(false);
-        for (String resultItem : recipes) {
+        for (String resultItem : Objects.requireNonNull(config.getConfigurationSection(main)).getKeys(false)) {
             HashMap<Character, Material> recipeSet = new HashMap<>();
             String[] shape = null;
             Material material = Material.getMaterial(resultItem);
             assert material != null;
             ItemStack itemStack = new ItemStack(material, 1);
-            Set<String> stringList = Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem)).getKeys(false);
-            for (String recipeOrData : stringList) {
+            for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem)).getKeys(false)) {
                 //Set<String> data = Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem + "." + recipeOrData)).getKeys(false);
                 if (recipeOrData.equalsIgnoreCase("recipe")) {
                     shape = recipeOrData.split(",");
                 } else {
-                    String recipeChar = config.getString(main + "." + resultItem + "." + recipeOrData + "." + recipeOrData);
+                    String recipeChar = config.getString(main + "." + resultItem + "." + recipeOrData);
                     assert recipeChar != null;
                     recipeSet.put(recipeChar.charAt(0), Material.getMaterial(recipeOrData));
                 }
