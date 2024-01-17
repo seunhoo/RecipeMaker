@@ -47,3 +47,8 @@ processResources {
         expand props
     }
 }
+
+jar{
+    archiveFileName = 'RecipeMaker.jar'
+    destinationDirectory = file("C:\\Users\\Admin\\Desktop\\게임\\server1.20.2\\plugins")
+}
