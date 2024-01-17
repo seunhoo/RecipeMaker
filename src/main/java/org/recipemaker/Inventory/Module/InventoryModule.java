@@ -54,13 +54,11 @@ public class InventoryModule {
     }
 
     public void getRecipeInConfig(Plugin plugin) {
-//        FileConfiguration config = plugin.getConfig();
+        plugin.getConfig().options().copyDefaults(true);
+        plugin.saveConfig();
+        FileConfiguration config = plugin.getConfig();
         String main = "recipe";
-        YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new File("config.yml"));
-        ConfigurationSection config = yamlConfiguration.getConfigurationSection(main);
-        assert config != null;
         List<String> recipes = config.getStringList(main);
-//        List<String> recipes = config.getStringList(main);
         for (String resultItem : recipes) {
             List<String> stringList = config.getStringList(main + "/" + resultItem);
             HashMap<Character, Material> recipeSet = new HashMap<>();
