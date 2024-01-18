@@ -32,7 +32,7 @@ public class InventoryCommand implements CommandExecutor {
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public void recipeMake(CommandSender sender) {

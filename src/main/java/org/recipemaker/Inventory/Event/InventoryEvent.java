@@ -8,14 +8,13 @@ import org.bukkit.inventory.ItemStack;
 import org.recipemaker.Inventory.Enum.InventoryName;
 import org.recipemaker.Inventory.Module.InventoryModule;
 
+import java.util.Objects;
+
 public class InventoryEvent implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        ItemStack item = event.getCursor();
-        assert item != null;
-        if(item.getType() == InventoryModule.noneBlock) {
+        if(Objects.requireNonNull(event.getCurrentItem()).getType() == InventoryModule.noneBlock) {
             event.setCancelled(true);
-            return;
         }
         if (event.getView().getTitle().equals(InventoryName.RECIPE_MAKER.getName())) {
 

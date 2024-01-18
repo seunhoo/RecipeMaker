@@ -40,7 +40,7 @@ public class InventoryModule {
             inventory.setItem(i, itemStack);
         }
         for (int i = x; i < size - x; i += x) {
-            for (int j = i + 1; j < i + 4; j++) {
+            for (int j = i + 2; j < i + 5; j++) {
                 materialPosition.put(j, materialItemStack);
                 inventory.setItem(j, materialItemStack);
             }
