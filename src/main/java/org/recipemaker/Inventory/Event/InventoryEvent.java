@@ -13,11 +13,12 @@ import java.util.Objects;
 public class InventoryEvent implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if(Objects.requireNonNull(event.getCurrentItem()).getType() == InventoryModule.noneBlock) {
-            event.setCancelled(true);
-        }
-        if (event.getView().getTitle().equals(InventoryName.RECIPE_MAKER.getName())) {
 
+        if (event.getView().getTitle().equals(InventoryName.RECIPE_MAKER.getName())) {
+            ItemStack item = event.getCurrentItem();
+            if(item != null && item.getType()  == InventoryModule.noneBlock) {
+                event.setCancelled(true);
+            }
         }
     }
 }
