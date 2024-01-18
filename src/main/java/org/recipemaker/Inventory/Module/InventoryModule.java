@@ -16,7 +16,6 @@ import java.util.*;
 
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
-    private FileConfiguration config = null;
     private final String mainYmlRecipe = "recipe";
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     public static Material acceptBlock = Material.LIME_WOOL;
@@ -59,6 +58,8 @@ public class InventoryModule {
     public void setRecipeInInventory(Inventory inventory) throws IOException {
         ItemStack resultItem = inventory.getItem(resultPosition);
         assert resultItem != null;
+        FileConfiguration config = RecipeMaker.getPlugin().getConfig();
+        
         config.set(mainYmlRecipe,resultItem.toString());
         for(int i = x; i < size - x * 2 ; i += x){
             for(int j = i + 2; j < i + 5 ; j++){
@@ -73,7 +74,7 @@ public class InventoryModule {
     public void getRecipeInConfig(Plugin plugin) {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
-        config = plugin.getConfig();
+        FileConfiguration config = plugin.getConfig();
 
         for (String resultItem : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe)).getKeys(false)) {
             HashMap<Character, Material> recipeSet = new HashMap<>();
