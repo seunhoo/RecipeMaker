@@ -5,6 +5,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.recipemaker.Inventory.Enum.InventoryName;
 import org.recipemaker.Inventory.Module.InventoryModule;
@@ -42,7 +43,7 @@ public class InventoryEvent implements Listener {
             ItemStack item = event.getCurrentItem();
             if(item != null){
                 event.setCancelled(true);
-
+                Inventory inventory = inventoryModule.openItemRecipe(item.getType());
             }
         }
     }
