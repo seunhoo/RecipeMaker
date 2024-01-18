@@ -61,28 +61,30 @@ public class InventoryModule {
         assert resultItem != null;
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 
-        HashMap<String,String> recipe = new HashMap<>();
+        HashMap<String,Integer> recipe = new HashMap<>();
         String[] recipeShape = new String[3];
 
         for(int i = x; i < size - x * 2 ; i += x){
             StringBuilder lineRecipe = new StringBuilder();
             for(int j = i + 2; j < i + 5 ; j++){
-                ItemStack item = inventory.getItem(j);
-                if(item != null){
-                    recipe.put(item.getType().toString(), data.get(String.valueOf(j)));
-                    lineRecipe.append(data.get(j));
+                ItemStack inventoryItem = inventory.getItem(j);
+                if(inventoryItem != null){
+                    String itemName = inventoryItem.getType().toString();
+                    if(!recipe.containsKey(itemName)){
+                        recipe.put(itemName,j);
+                    }
+                    lineRecipe.append(data.get(recipe.get(itemName)));
                 }else{
                     lineRecipe.append(" ");
                 }
             }
             recipeShape[i / x - 1] = "\""+ String.valueOf(lineRecipe) +"\",";
         }
-
         recipeShape[2] = recipeShape[2].substring(0, recipeShape[2].length() - 1);
 
-        for(Map.Entry<String,String> data : recipe.entrySet()){
-            String key = data.getKey();
-            String value = data.getValue();
+        for(Map.Entry<String,Integer> stringEntry : recipe.entrySet()){
+            String key = stringEntry.getKey();
+            String value = String.valueOf(stringEntry.getValue());
             config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ key,value);
         }
         StringBuilder temp = new StringBuilder();
