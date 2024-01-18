@@ -38,7 +38,7 @@ public class InventoryModule {
         ItemStack itemStack = itemModule.setItem(noneBlock, 1, " ");
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "재료 아이템을 놓으세요!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "만들어질 아이템을 놓으세요!");
-        ItemStack acceptItemStack = itemModule.setItem(Material.GREEN_WOOL, 1, "확인");
+        ItemStack acceptItemStack = itemModule.setItem(Material.LIME_WOOL, 1, "확인");
         ItemStack cancelItemStack = itemModule.setItem(Material.RED_WOOL, 1, "취소");
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
