@@ -108,7 +108,7 @@ public class InventoryModule {
         config.save("plugins/RecipeMaker/config.yml");
 
         // recipe shape 만들기
-        String[] shape = writingRecipe.toString().split(",");
+        String[] shape = writingRecipe.toString().replace("\"","").split(",");
 
         setRecipe(RecipeMaker.getPlugin(), resultItem, shape, recipe, resultItem.getType().toString());
     }
