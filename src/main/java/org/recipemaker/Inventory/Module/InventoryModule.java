@@ -74,7 +74,7 @@ public class InventoryModule {
                     lineRecipe.append(" ");
                 }
             }
-            recipeShape[i / 9 - 1] = "\""+ String.valueOf(lineRecipe) +"\",";
+            recipeShape[i / x - 1] = "\""+ String.valueOf(lineRecipe) +"\",";
         }
 
         recipeShape[2] = recipeShape[2].substring(0, recipeShape[2].length() - 1);
