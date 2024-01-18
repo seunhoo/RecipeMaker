@@ -103,7 +103,8 @@ public class InventoryModule {
             int i = temp + 2;
             for(char detail : detailShape.toCharArray()){
                 if(detail != ' ')
-                    inventory.setItem(i++ ,new ItemStack(recipe.get(detail),1));
+                    inventory.setItem(i ,new ItemStack(recipe.get(detail),1));
+                i++;
             }
             temp += 9;
         }
