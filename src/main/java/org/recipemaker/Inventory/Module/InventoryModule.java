@@ -21,7 +21,7 @@ public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     int x = 9;
-    int y = 5;
+    int y = 7;
     int size = x * y;
     int resultPosition = y / 2 * x - 2;
     HashMap<Integer, ItemStack> materialPosition = new HashMap<>();
@@ -33,7 +33,7 @@ public class InventoryModule {
     public Inventory openRecipeMakerInventory() {
 
         Inventory inventory = makeInventory(InventoryName.RECIPE_MAKER.getName(), size);
-        ItemStack itemStack = itemModule.setItem(noneBlock, 1, "");
+        ItemStack itemStack = itemModule.setItem(noneBlock, 1, null);
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "재료 아이템을 놓으세요!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "만들어질 아이템을 놓으세요!");
         for (int i = 0; i < size; i++) {
