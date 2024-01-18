@@ -21,7 +21,7 @@ public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     int x = 9;
-    int y = 5;
+    int y = 6;
     int size = x * y;
     int resultPosition = (int) Math.ceil((double) y / 2) * x - 3;
     HashMap<Integer, ItemStack> materialPosition = new HashMap<>();
@@ -39,7 +39,7 @@ public class InventoryModule {
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
         }
-        for (int i = x; i < size - x; i += x) {
+        for (int i = x; i < size - x * 2; i += x) {
             for (int j = i + 2; j < i + 5; j++) {
                 materialPosition.put(j, materialItemStack);
                 inventory.setItem(j, materialItemStack);
