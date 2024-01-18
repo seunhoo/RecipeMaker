@@ -25,9 +25,19 @@ public class InventoryModule {
     int size = x * y;
     int resultPosition = (int) Math.ceil((double) y / 2) * x - 3;
     int acceptPosition = y * x - 4;
-    int cancelPosition =  y * x - 6;
+    int cancelPosition = y * x - 6;
     HashMap<Integer, ItemStack> materialPosition = new HashMap<>();
-    HashMap<Integer, String> data = new HashMap<>(){{put(11,"A");put(12,"B");put(13,"C");put(20,"D");put(21,"E");put(22,"F");put(29,"G");put(30,"H");put(31,"I");}};
+    HashMap<Integer, String> data = new HashMap<>() {{
+        put(11, "A");
+        put(12, "B");
+        put(13, "C");
+        put(20, "D");
+        put(21, "E");
+        put(22, "F");
+        put(29, "G");
+        put(30, "H");
+        put(31, "I");
+    }};
 
     private Inventory makeInventory(String title, int size) {
         return Bukkit.createInventory(null, size, title);
@@ -56,44 +66,46 @@ public class InventoryModule {
 
         return inventory;
     }
+
     public void setRecipeInInventory(Inventory inventory) throws IOException {
         ItemStack resultItem = inventory.getItem(resultPosition);
         assert resultItem != null;
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 
-        HashMap<String,Integer> recipe = new HashMap<>();
+        HashMap<String, Integer> recipe = new HashMap<>();
         String[] recipeShape = new String[3];
 
-        for(int i = x; i < size - x * 2 ; i += x){
+        for (int i = x; i < size - x * 2; i += x) {
             StringBuilder lineRecipe = new StringBuilder();
-            for(int j = i + 2; j < i + 5 ; j++){
+            for (int j = i + 2; j < i + 5; j++) {
                 ItemStack inventoryItem = inventory.getItem(j);
-                if(inventoryItem != null){
+                if (inventoryItem != null) {
                     String itemName = inventoryItem.getType().toString();
-                    if(!recipe.containsKey(itemName)){
-                        recipe.put(itemName,j);
+                    if (!recipe.containsKey(itemName)) {
+                        recipe.put(itemName, j);
                     }
                     lineRecipe.append(data.get(recipe.get(itemName)));
-                }else{
+                } else {
                     lineRecipe.append(" ");
                 }
             }
-            recipeShape[i / x - 1] = "\""+ String.valueOf(lineRecipe) +"\",";
+            recipeShape[i / x - 1] = "\"" + String.valueOf(lineRecipe) + "\",";
         }
         recipeShape[2] = recipeShape[2].substring(0, recipeShape[2].length() - 1);
 
-        for(Map.Entry<String,Integer> stringEntry : recipe.entrySet()){
+        for (Map.Entry<String, Integer> stringEntry : recipe.entrySet()) {
             String key = stringEntry.getKey();
-            String value = String.valueOf(stringEntry.getValue());
-            config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ key,value);
+            String value = String.valueOf(data.get(stringEntry.getValue()));
+            config.set(mainYmlRecipe + "." + resultItem.getType().toString() + "." + key, value);
         }
         StringBuilder temp = new StringBuilder();
-        for(String value : recipeShape){
+        for (String value : recipeShape) {
             temp.append(value);
         }
-        config.set(mainYmlRecipe+"."+resultItem.getType().toString()+".recipe",temp.toString());
+        config.set(mainYmlRecipe + "." + resultItem.getType().toString() + ".recipe", temp.toString());
         config.save("plugins/RecipeMaker/config.yml");
     }
+
     public void getRecipeInConfig(Plugin plugin) {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
