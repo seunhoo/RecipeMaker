@@ -126,7 +126,7 @@ public class InventoryModule {
             ItemStack itemStack = new ItemStack(material, 1);
             for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe + "." + resultItem)).getKeys(false)) {
                 if (recipeOrData.equalsIgnoreCase("recipe")) {
-                    shape = Objects.requireNonNull(config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData)).split(",");
+                    shape = Objects.requireNonNull(config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData)).replace("\"","").split(",");
                 } else {
                     String recipeChar = config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData);
                     assert recipeChar != null;

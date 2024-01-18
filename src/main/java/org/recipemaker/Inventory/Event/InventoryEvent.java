@@ -1,5 +1,7 @@
 package org.recipemaker.Inventory.Event;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -25,6 +27,8 @@ public class InventoryEvent implements Listener {
                         event.setCancelled(true);
                         inventoryModule.setRecipeInInventory(event.getInventory());
                         event.getView().close();
+                        HumanEntity player = event.getView().getPlayer();
+                        player.sendMessage(ChatColor.AQUA + "새로운 레시피가 등록되었습니다.");
                     }
                     case RED_WOOL -> {
                         event.setCancelled(true);
