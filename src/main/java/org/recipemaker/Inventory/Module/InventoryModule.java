@@ -68,7 +68,7 @@ public class InventoryModule {
             StringBuilder lineRecipe = new StringBuilder();
             for(int j = i + 2; j < i + 5 ; j++){
                 ItemStack item = inventory.getItem(j);
-                if(item != null && ! recipe.containsKey(item.getType().toString())){
+                if(item != null){
                     recipe.put(item.getType().toString(), String.valueOf(j));
                     lineRecipe.append(data.get(j));
                 }else{
