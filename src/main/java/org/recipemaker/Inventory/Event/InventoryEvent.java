@@ -17,8 +17,8 @@ public class InventoryEvent implements Listener {
     private final RecipeModule recipeModule = new RecipeModule();
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) throws IOException {
-
-        if (event.getView().getTitle().equals(InventoryName.RECIPE_MAKER.getName())) {
+        String title = event.getView().getTitle();
+        if (title.equals(InventoryName.RECIPE_MAKER.getName())) {
             ItemStack item = event.getCurrentItem();
             if(item != null){
                 switch (item.getType()){
@@ -38,7 +38,12 @@ public class InventoryEvent implements Listener {
                     }
                 }
             }
+        }else if (title.equals(InventoryName.RECIPE_LIST.getName())){
+            ItemStack item = event.getCurrentItem();
+            if(item != null){
+                event.setCancelled(true);
 
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ public class RecipeModule {
         // recipe shape 만들기
         String[] shape = writingRecipe.toString().replace("\"","").split(",");
 
-        setRecipe(RecipeMaker.getPlugin(), resultItem, shape, recipe, resultItem.getType().toString());
+        setRecipe( resultItem, shape, recipe, resultItem.getType().toString());
     }
     public void getRecipeInConfig() {
         RecipeMaker.getPlugin().getConfig().options().copyDefaults(true);
@@ -97,19 +97,19 @@ public class RecipeModule {
                     recipeSet.put(Material.getMaterial(recipeOrData), recipeChar.charAt(0));
                 }
             }
-            setRecipe(RecipeMaker.getPlugin(), itemStack, shape, recipeSet, resultItem);
+            setRecipe(itemStack, shape, recipeSet, resultItem);
         }
     }
 
-    public void setRecipe(Plugin plugin, ItemStack itemStack, String[] shape, HashMap<Material, Character> material, String name) {
-        NamespacedKey customRecipe = new NamespacedKey(plugin, "Custom" + name);
+    public void setRecipe(ItemStack itemStack, String[] shape, HashMap<Material, Character> material, String name) {
+        NamespacedKey customRecipe = new NamespacedKey(RecipeMaker.getPlugin(), "Custom" + name);
         ShapedRecipe recipe = new ShapedRecipe(customRecipe, itemStack).shape(shape);
         for (Map.Entry<Material, Character> entry : material.entrySet()) {
             recipe.setIngredient(entry.getValue(), entry.getKey());
         }
-        plugin.getServer().addRecipe(recipe);
+        RecipeMaker.getPlugin().getServer().addRecipe(recipe);
     }
-    public void getRecipe(){
+    public void getRecipe(Material material){
 
     }
 }
