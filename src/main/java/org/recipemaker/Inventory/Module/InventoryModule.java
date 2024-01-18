@@ -61,7 +61,7 @@ public class InventoryModule {
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 
         HashMap<String,String> recipe = new HashMap<>();
-        String[] recipeShape = new String[2];
+        String[] recipeShape = new String[3];
 
         for(int i = x; i < size - x * 2 ; i += x){
             StringBuilder lineRecipe = new StringBuilder();
