@@ -83,13 +83,13 @@ public class InventoryModule {
         for(Map.Entry<String,String> data : recipe.entrySet()){
             String key = data.getKey();
             String value = data.getValue();
-            config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ value,key);
+            config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ key,value);
         }
         StringBuilder temp = new StringBuilder();
         for(String value : recipeShape){
             temp.append(value);
         }
-        config.set(mainYmlRecipe+"."+resultItem.getType().toString()+".recipe",temp);
+        config.set(mainYmlRecipe+"."+resultItem.getType().toString()+".recipe",temp.toString());
         config.save("plugins/RecipeMaker/config.yml");
     }
     public void getRecipeInConfig(Plugin plugin) {
