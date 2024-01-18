@@ -44,6 +44,8 @@ public class InventoryEvent implements Listener {
             if(item != null){
                 event.setCancelled(true);
                 Inventory inventory = inventoryModule.openItemRecipe(item.getType());
+                HumanEntity player = event.getView().getPlayer();
+                player.openInventory(inventory);
             }
         }
     }
