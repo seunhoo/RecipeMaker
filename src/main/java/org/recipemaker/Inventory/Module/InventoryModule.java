@@ -100,13 +100,17 @@ public class InventoryModule {
             config.set(mainYmlRecipe + "." + resultItem.getType().toString() + "." + key, value);
         }
         // recipe 쓰기
-        StringBuilder temp = new StringBuilder();
+        StringBuilder writingRecipe = new StringBuilder();
         for (String value : recipeShape) {
-            temp.append(value);
+            writingRecipe.append(value);
         }
-        config.set(mainYmlRecipe + "." + resultItem.getType().toString() + ".recipe", temp.toString());
+        config.set(mainYmlRecipe + "." + resultItem.getType().toString() + ".recipe", writingRecipe.toString());
         config.save("plugins/RecipeMaker/config.yml");
-        setRecipe(RecipeMaker.getPlugin(), resultItem, recipeShape, recipe, resultItem.getType().toString());
+
+        // recipe shape 만들기
+        String[] shape = writingRecipe.toString().split(",");
+
+        setRecipe(RecipeMaker.getPlugin(), resultItem, shape, recipe, resultItem.getType().toString());
     }
 
     public void getRecipeInConfig() {
