@@ -16,9 +16,20 @@ public class InventoryEvent implements Listener {
 
         if (event.getView().getTitle().equals(InventoryName.RECIPE_MAKER.getName())) {
             ItemStack item = event.getCurrentItem();
-            if(item != null && item.getType()  == InventoryModule.noneBlock) {
-                event.setCancelled(true);
+            if(item != null){
+                switch (item.getType()){
+                    case BLACK_STAINED_GLASS_PANE -> {
+                        event.setCancelled(true);
+                    }
+                    case LIME_WOOL -> {
+                        event.setCancelled(true);
+                    }
+                    case RED_WOOL -> {
+                        event.setCancelled(true);
+                    }
+                }
             }
+
         }
     }
 }

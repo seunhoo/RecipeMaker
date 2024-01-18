@@ -20,6 +20,8 @@ import java.util.*;
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
+    public static Material acceptBlock = Material.LIME_WOOL;
+    public static Material cancelBlock = Material.RED_WOOL;
     int x = 9;
     int y = 6;
     int size = x * y;
@@ -38,8 +40,8 @@ public class InventoryModule {
         ItemStack itemStack = itemModule.setItem(noneBlock, 1, " ");
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "재료 아이템을 놓으세요!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "만들어질 아이템을 놓으세요!");
-        ItemStack acceptItemStack = itemModule.setItem(Material.LIME_WOOL, 1, "확인");
-        ItemStack cancelItemStack = itemModule.setItem(Material.RED_WOOL, 1, "취소");
+        ItemStack acceptItemStack = itemModule.setItem(acceptBlock, 1, "확인");
+        ItemStack cancelItemStack = itemModule.setItem(cancelBlock, 1, "취소");
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
         }
