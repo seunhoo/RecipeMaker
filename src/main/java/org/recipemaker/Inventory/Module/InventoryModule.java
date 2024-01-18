@@ -107,6 +107,7 @@ public class InventoryModule {
             }
             temp += 9;
         }
+        inventory.setItem(resultPosition, new ItemStack(Objects.requireNonNull(Material.getMaterial(resultItem)),1));
         return inventory;
     }
 
