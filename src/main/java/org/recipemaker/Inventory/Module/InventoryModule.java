@@ -65,12 +65,12 @@ public class InventoryModule {
     }
 
     public Inventory openItemRecipe(Material material) {
-        Inventory inventory = makeInventory(InventoryName.RECIPE_LIST.getName(), size);
+        Inventory inventory = makeInventory(InventoryName.RECIPE_DETAIL.getName(), size);
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
         Set<String> keys = Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe +"."+ material.toString())).getKeys(false);
         ItemStack itemStack = itemModule.setItem(noneBlock, 1, " ");
-        ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "재료 아이템을 놓으세요!");
-        ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "만들어질 아이템을 놓으세요!");
+        ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "이렇게 만들어 졌습니다!");
+        ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "이렇게 됩니다!");
         ItemStack returnItemStack = itemModule.setItem(cancelBlock, 1, "뒤로가기");
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
