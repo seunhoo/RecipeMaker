@@ -3,6 +3,7 @@ package org.recipemaker.Inventory.Module;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.recipemaker.Inventory.Enum.InventoryName;
@@ -99,9 +100,10 @@ public class InventoryModule {
         }
         int temp = x;
         for (String detailShape : shape) {
-            for (int i = temp + 2; i < temp + 5; i++) {
-                char detail = detailShape.charAt(i);
-                inventory.setItem(i, new ItemStack( recipe.get(detail),1));
+            int i = temp + 2;
+            for(char detail : detailShape.toCharArray()){
+                if(detail != ' ')
+                    inventory.setItem(i++ ,new ItemStack(recipe.get(detail),1));
             }
             temp += 9;
         }
