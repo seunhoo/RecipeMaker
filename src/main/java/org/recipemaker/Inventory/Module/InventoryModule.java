@@ -97,11 +97,13 @@ public class InventoryModule {
                 recipe.put(recipeChar.charAt(0), Material.getMaterial(recipeOrData));
             }
         }
+        int temp = x;
         for (String detailShape : shape) {
-            for (int i = 0; i < detailShape.length(); i++) {
+            for (int i = temp + 2; i < temp + 5; i++) {
                 char detail = detailShape.charAt(i);
                 inventory.setItem(i, new ItemStack( recipe.get(detail),1));
             }
+            temp += 9;
         }
         return inventory;
     }
