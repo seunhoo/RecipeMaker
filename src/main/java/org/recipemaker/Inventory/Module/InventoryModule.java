@@ -13,6 +13,7 @@ import java.util.*;
 
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
+    private final RecipeModule recipeModule= new RecipeModule();
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     public static Material acceptBlock = Material.LIME_WOOL;
     public static Material cancelBlock = Material.RED_WOOL;
@@ -66,8 +67,6 @@ public class InventoryModule {
 
     public Inventory openItemRecipe(Material material) {
         Inventory inventory = makeInventory(InventoryName.RECIPE_DETAIL.getName(), size);
-        FileConfiguration config = RecipeMaker.getPlugin().getConfig();
-        Set<String> keys = Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe +"."+ material.toString())).getKeys(false);
         ItemStack itemStack = itemModule.setItem(noneBlock, 1, " ");
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "이렇게 만들어 졌습니다!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "이렇게 됩니다!");
@@ -83,6 +82,27 @@ public class InventoryModule {
         }
         inventory.setItem(resultPosition, resultItemStack);
         inventory.setItem(size - 5, returnItemStack);
+
+        FileConfiguration config = RecipeMaker.getPlugin().getConfig();
+
+        String resultItem = material.toString();
+        String[] shape = new String[2];
+        HashMap<Character, Material> recipe = new HashMap<>();
+        for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe + "." + resultItem)).getKeys(false)) {
+            if (recipeOrData.equalsIgnoreCase("recipe")) {
+                shape = Objects.requireNonNull(config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData)).replace("\"", "").split(",");
+            } else {
+                String recipeChar = config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData);
+                assert recipeChar != null;
+                recipe.put(recipeChar.charAt(0), Material.getMaterial(recipeOrData));
+            }
+        }
+        for (String detailShape : shape) {
+            for (int i = 0; i < detailShape.length(); i++) {
+                char detail = detailShape.charAt(i);
+                inventory.setItem(i, new ItemStack( recipe.get(detail),1));
+            }
+        }
         return inventory;
     }
 
