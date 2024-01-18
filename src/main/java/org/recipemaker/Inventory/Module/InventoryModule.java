@@ -61,21 +61,30 @@ public class InventoryModule {
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 
         HashMap<String,String> recipe = new HashMap<>();
+        String[] recipeShape = new String[2];
 
         for(int i = x; i < size - x * 2 ; i += x){
+            StringBuilder lineRecipe = new StringBuilder();
             for(int j = i + 2; j < i + 5 ; j++){
                 ItemStack item = inventory.getItem(j);
-                if(item != null){
-                    recipe.put(String.valueOf(j),item.getType().toString());
+                if(item != null && ! recipe.containsKey(item.getType().toString())){
+                    recipe.put(item.getType().toString(), String.valueOf((char)j + 33));
+                    lineRecipe.append((char) j + 33);
+                }else{
+                    lineRecipe.append(" ");
                 }
             }
+            recipeShape[x / 9 - 1] = "\""+ String.valueOf(lineRecipe) +"\",";
         }
+
+        recipeShape[2] = recipeShape[2].substring(0, recipeShape[2].length() - 1);
+
         for(Map.Entry<String,String> data : recipe.entrySet()){
             String key = data.getKey();
             String value = data.getValue();
-            config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ key,value);
+            config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ value,key);
         }
-//        config.set(mainYmlRecipe+"."+resultItem.getType().toString()+".recipe", );
+        config.set(mainYmlRecipe+"."+resultItem.getType().toString()+".recipe", Arrays.toString(recipeShape));
         config.save("plugins/RecipeMaker/config.yml");
     }
     public void getRecipeInConfig(Plugin plugin) {

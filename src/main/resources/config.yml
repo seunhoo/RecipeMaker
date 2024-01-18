@@ -1,5 +1,5 @@
 recipe:
   BLAZE_ROD:
-    recipe: "\"|\",\"a\",\"|\""
+    recipe: '"|","a","|"'
     STICK: "|"
     COBBLESTONE: "a"
