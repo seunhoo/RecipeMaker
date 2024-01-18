@@ -24,6 +24,7 @@ public class InventoryEvent implements Listener {
                     case LIME_WOOL -> {
                         event.setCancelled(true);
                         inventoryModule.setRecipeInInventory(event.getInventory());
+                        event.getView().close();
                     }
                     case RED_WOOL -> {
                         event.setCancelled(true);

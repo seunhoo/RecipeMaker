@@ -29,7 +29,7 @@ public final class RecipeMaker extends JavaPlugin {
         plugin = this;
         // Plugin startup logic
         this.adventure = BukkitAudiences.create(this);
-        inventoryModule.getRecipeInConfig(this);
+        inventoryModule.getRecipeInConfig();
 
         InventoryCommand inventoryCommand = new InventoryCommand(this);
         getServer().getPluginManager().registerEvents(new InventoryEvent(), this);

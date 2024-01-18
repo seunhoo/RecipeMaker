@@ -72,7 +72,7 @@ public class InventoryModule {
         assert resultItem != null;
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 
-        HashMap<String, Integer> recipe = new HashMap<>();
+        HashMap<Material, Character> recipe = new HashMap<>();
         String[] recipeShape = new String[3];
 
         for (int i = x; i < size - x * 2; i += x) {
@@ -80,11 +80,11 @@ public class InventoryModule {
             for (int j = i + 2; j < i + 5; j++) {
                 ItemStack inventoryItem = inventory.getItem(j);
                 if (inventoryItem != null) {
-                    String itemName = inventoryItem.getType().toString();
-                    if (!recipe.containsKey(itemName)) {
-                        recipe.put(itemName, j);
+                    Material type = inventoryItem.getType();
+                    if (!recipe.containsKey(type)) {
+                        recipe.put(type, data.get(j).charAt(0));
                     }
-                    lineRecipe.append(data.get(recipe.get(itemName)));
+                    lineRecipe.append(recipe.get(type));
                 } else {
                     lineRecipe.append(" ");
                 }
@@ -93,26 +93,29 @@ public class InventoryModule {
         }
         recipeShape[2] = recipeShape[2].substring(0, recipeShape[2].length() - 1);
 
-        for (Map.Entry<String, Integer> stringEntry : recipe.entrySet()) {
-            String key = stringEntry.getKey();
-            String value = String.valueOf(data.get(stringEntry.getValue()));
+        // Material 등록
+        for (Map.Entry<Material, Character> stringEntry : recipe.entrySet()) {
+            Material key = stringEntry.getKey();
+            String value = stringEntry.getValue().toString();
             config.set(mainYmlRecipe + "." + resultItem.getType().toString() + "." + key, value);
         }
+        // recipe 쓰기
         StringBuilder temp = new StringBuilder();
         for (String value : recipeShape) {
             temp.append(value);
         }
         config.set(mainYmlRecipe + "." + resultItem.getType().toString() + ".recipe", temp.toString());
         config.save("plugins/RecipeMaker/config.yml");
+        setRecipe(RecipeMaker.getPlugin(), resultItem, recipeShape, recipe, resultItem.getType().toString());
     }
 
-    public void getRecipeInConfig(Plugin plugin) {
-        plugin.getConfig().options().copyDefaults(true);
-        plugin.saveConfig();
-        FileConfiguration config = plugin.getConfig();
+    public void getRecipeInConfig() {
+        RecipeMaker.getPlugin().getConfig().options().copyDefaults(true);
+        RecipeMaker.getPlugin().saveConfig();
+        FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 
         for (String resultItem : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe)).getKeys(false)) {
-            HashMap<Character, Material> recipeSet = new HashMap<>();
+            HashMap<Material, Character> recipeSet = new HashMap<>();
             String[] shape = null;
             Material material = Material.getMaterial(resultItem);
             assert material != null;
@@ -123,18 +126,18 @@ public class InventoryModule {
                 } else {
                     String recipeChar = config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData);
                     assert recipeChar != null;
-                    recipeSet.put(recipeChar.charAt(0), Material.getMaterial(recipeOrData));
+                    recipeSet.put(Material.getMaterial(recipeOrData), recipeChar.charAt(0));
                 }
             }
-            setRecipe(plugin, itemStack, shape, recipeSet, resultItem);
+            setRecipe(RecipeMaker.getPlugin(), itemStack, shape, recipeSet, resultItem);
         }
     }
 
-    public void setRecipe(Plugin plugin, ItemStack itemStack, String[] shape, HashMap<Character, Material> material, String name) {
+    public void setRecipe(Plugin plugin, ItemStack itemStack, String[] shape, HashMap<Material, Character> material, String name) {
         NamespacedKey customRecipe = new NamespacedKey(plugin, "Custom" + name);
         ShapedRecipe recipe = new ShapedRecipe(customRecipe, itemStack).shape(shape);
-        for (Map.Entry<Character, Material> entry : material.entrySet()) {
-            recipe.setIngredient(entry.getKey(), entry.getValue());
+        for (Map.Entry<Material, Character> entry : material.entrySet()) {
+            recipe.setIngredient(entry.getValue(), entry.getKey());
         }
         plugin.getServer().addRecipe(recipe);
     }
