@@ -24,6 +24,8 @@ public class InventoryModule {
     int y = 6;
     int size = x * y;
     int resultPosition = (int) Math.ceil((double) y / 2) * x - 3;
+    int acceptPosition = y * x - 4;
+    int cancelPosition =  y * x - 6;
     HashMap<Integer, ItemStack> materialPosition = new HashMap<>();
 
     private Inventory makeInventory(String title, int size) {
@@ -36,6 +38,8 @@ public class InventoryModule {
         ItemStack itemStack = itemModule.setItem(noneBlock, 1, " ");
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "재료 아이템을 놓으세요!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "만들어질 아이템을 놓으세요!");
+        ItemStack acceptItemStack = itemModule.setItem(Material.GREEN_WOOL, 1, "확인");
+        ItemStack cancelItemStack = itemModule.setItem(Material.RED_WOOL, 1, "취소");
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
         }
@@ -46,6 +50,8 @@ public class InventoryModule {
             }
         }
         inventory.setItem(resultPosition, resultItemStack);
+        inventory.setItem(acceptPosition, acceptItemStack);
+        inventory.setItem(cancelPosition, cancelItemStack);
 
         return inventory;
     }
