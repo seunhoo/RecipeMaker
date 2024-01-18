@@ -1,24 +1,21 @@
 package org.recipemaker.Inventory.Module;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 import org.recipemaker.Inventory.Enum.InventoryName;
+import org.recipemaker.RecipeMaker;
 
-import java.io.File;
-import java.sql.Array;
 import java.util.*;
 
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
+    private final String mainYmlRecipe = "recipe";
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     public static Material acceptBlock = Material.LIME_WOOL;
     public static Material cancelBlock = Material.RED_WOOL;
@@ -57,23 +54,35 @@ public class InventoryModule {
 
         return inventory;
     }
-
+    public void setRecipeInInventory(Inventory inventory){
+        ItemStack resultItem = inventory.getItem(resultPosition);
+        assert resultItem != null;
+        RecipeMaker.config.set(mainYmlRecipe,resultItem.toString());
+        for(int i = x; i < size - x * 2 ; i += x){
+            for(int j = i + 2; j < i + 5 ; j++){
+                ItemStack item = inventory.getItem(j);
+                if(item != null){
+//                    RecipeMaker.config.set();
+                }
+            }
+        }
+    }
     public void getRecipeInConfig(Plugin plugin) {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
         FileConfiguration config = plugin.getConfig();
-        String main = "recipe";
-        for (String resultItem : Objects.requireNonNull(config.getConfigurationSection(main)).getKeys(false)) {
+
+        for (String resultItem : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe)).getKeys(false)) {
             HashMap<Character, Material> recipeSet = new HashMap<>();
             String[] shape = null;
             Material material = Material.getMaterial(resultItem);
             assert material != null;
             ItemStack itemStack = new ItemStack(material, 1);
-            for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(main + "." + resultItem)).getKeys(false)) {
+            for (String recipeOrData : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe + "." + resultItem)).getKeys(false)) {
                 if (recipeOrData.equalsIgnoreCase("recipe")) {
-                    shape = Objects.requireNonNull(config.getString(main + "." + resultItem + "." + recipeOrData)).split(",");
+                    shape = Objects.requireNonNull(config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData)).split(",");
                 } else {
-                    String recipeChar = config.getString(main + "." + resultItem + "." + recipeOrData);
+                    String recipeChar = config.getString(mainYmlRecipe + "." + resultItem + "." + recipeOrData);
                     assert recipeChar != null;
                     recipeSet.put(recipeChar.charAt(0), Material.getMaterial(recipeOrData));
                 }

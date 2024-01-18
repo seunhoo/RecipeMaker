@@ -4,13 +4,14 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.recipemaker.Inventory.Command.InventoryCommand;
 import org.recipemaker.Inventory.Event.InventoryEvent;
 import org.recipemaker.Inventory.Module.InventoryModule;
 
 public final class RecipeMaker extends JavaPlugin {
     private BukkitAudiences adventure;
-    private FileConfiguration config;
+    public static FileConfiguration config;
 
     private InventoryModule inventoryModule = new InventoryModule();
     public @NonNull BukkitAudiences adventure() {
@@ -21,6 +22,7 @@ public final class RecipeMaker extends JavaPlugin {
     }
     @Override
     public void onEnable() {
+        config = getConfig();
         // Plugin startup logic
         this.adventure = BukkitAudiences.create(this);
         inventoryModule.getRecipeInConfig(this);

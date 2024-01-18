@@ -1,6 +1,5 @@
 package org.recipemaker.Inventory.Event;
 
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -8,9 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.recipemaker.Inventory.Enum.InventoryName;
 import org.recipemaker.Inventory.Module.InventoryModule;
 
-import java.util.Objects;
-
 public class InventoryEvent implements Listener {
+    private final InventoryModule inventoryModule = new InventoryModule();
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
@@ -23,6 +21,7 @@ public class InventoryEvent implements Listener {
                     }
                     case LIME_WOOL -> {
                         event.setCancelled(true);
+                        inventoryModule.setRecipeInInventory(event.getInventory());
                     }
                     case RED_WOOL -> {
                         event.setCancelled(true);
