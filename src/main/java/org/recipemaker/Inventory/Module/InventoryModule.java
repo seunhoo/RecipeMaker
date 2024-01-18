@@ -59,16 +59,23 @@ public class InventoryModule {
         ItemStack resultItem = inventory.getItem(resultPosition);
         assert resultItem != null;
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
-        
-        config.set(mainYmlRecipe,resultItem.toString());
+
+        HashMap<String,String> recipe = new HashMap<>();
+
         for(int i = x; i < size - x * 2 ; i += x){
             for(int j = i + 2; j < i + 5 ; j++){
                 ItemStack item = inventory.getItem(j);
                 if(item != null){
-//                    RecipeMaker.config.set();
+                    recipe.put(String.valueOf(j),item.getType().toString());
                 }
             }
         }
+        for(Map.Entry<String,String> data : recipe.entrySet()){
+            String key = data.getKey();
+            String value = data.getValue();
+            config.set(mainYmlRecipe+"."+resultItem.getType().toString()+"."+ key,value);
+        }
+//        config.set(mainYmlRecipe+"."+resultItem.getType().toString()+".recipe", );
         config.save("plugins/RecipeMaker/config.yml");
     }
     public void getRecipeInConfig(Plugin plugin) {
