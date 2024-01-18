@@ -11,8 +11,6 @@ import org.recipemaker.Inventory.Module.InventoryModule;
 
 public final class RecipeMaker extends JavaPlugin {
     private BukkitAudiences adventure;
-    public static FileConfiguration config;
-
     private InventoryModule inventoryModule = new InventoryModule();
     public @NonNull BukkitAudiences adventure() {
         if (this.adventure == null) {
@@ -22,7 +20,6 @@ public final class RecipeMaker extends JavaPlugin {
     }
     @Override
     public void onEnable() {
-        config = getConfig();
         // Plugin startup logic
         this.adventure = BukkitAudiences.create(this);
         inventoryModule.getRecipeInConfig(this);

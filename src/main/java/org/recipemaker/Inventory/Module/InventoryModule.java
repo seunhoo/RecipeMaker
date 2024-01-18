@@ -11,10 +11,12 @@ import org.bukkit.plugin.Plugin;
 import org.recipemaker.Inventory.Enum.InventoryName;
 import org.recipemaker.RecipeMaker;
 
+import java.io.IOException;
 import java.util.*;
 
 public class InventoryModule {
     private final ItemModule itemModule = new ItemModule();
+    private FileConfiguration config = null;
     private final String mainYmlRecipe = "recipe";
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     public static Material acceptBlock = Material.LIME_WOOL;
@@ -54,10 +56,10 @@ public class InventoryModule {
 
         return inventory;
     }
-    public void setRecipeInInventory(Inventory inventory){
+    public void setRecipeInInventory(Inventory inventory) throws IOException {
         ItemStack resultItem = inventory.getItem(resultPosition);
         assert resultItem != null;
-        RecipeMaker.config.set(mainYmlRecipe,resultItem.toString());
+        config.set(mainYmlRecipe,resultItem.toString());
         for(int i = x; i < size - x * 2 ; i += x){
             for(int j = i + 2; j < i + 5 ; j++){
                 ItemStack item = inventory.getItem(j);
@@ -66,11 +68,12 @@ public class InventoryModule {
                 }
             }
         }
+        config.save("plugins/RecipeMaker/config.yml");
     }
     public void getRecipeInConfig(Plugin plugin) {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
-        FileConfiguration config = plugin.getConfig();
+        config = plugin.getConfig();
 
         for (String resultItem : Objects.requireNonNull(config.getConfigurationSection(mainYmlRecipe)).getKeys(false)) {
             HashMap<Character, Material> recipeSet = new HashMap<>();

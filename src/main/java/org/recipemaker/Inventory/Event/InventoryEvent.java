@@ -7,10 +7,12 @@ import org.bukkit.inventory.ItemStack;
 import org.recipemaker.Inventory.Enum.InventoryName;
 import org.recipemaker.Inventory.Module.InventoryModule;
 
+import java.io.IOException;
+
 public class InventoryEvent implements Listener {
     private final InventoryModule inventoryModule = new InventoryModule();
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
+    public void onInventoryClick(InventoryClickEvent event) throws IOException {
 
         if (event.getView().getTitle().equals(InventoryName.RECIPE_MAKER.getName())) {
             ItemStack item = event.getCurrentItem();
