@@ -26,6 +26,7 @@ public class InventoryEvent implements Listener {
                     }
                     case RED_WOOL -> {
                         event.setCancelled(true);
+                        event.getView().close();
                     }
                 }
             }
