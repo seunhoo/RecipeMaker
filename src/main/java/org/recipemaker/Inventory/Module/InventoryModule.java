@@ -27,7 +27,7 @@ public class InventoryModule {
     int acceptPosition = y * x - 4;
     int cancelPosition =  y * x - 6;
     HashMap<Integer, ItemStack> materialPosition = new HashMap<>();
-    HashMap<Integer, Character> data = new HashMap<>(){{put(11,'A');put(12,'B');put(13,'C');put(20,'D');put(21,'E');put(22,'F');put(29,'G');put(30,'H');put(31,'I');}};
+    HashMap<Integer, String> data = new HashMap<>(){{put(11,"A");put(12,"B");put(13,"C");put(20,"D");put(21,"E");put(22,"F");put(29,"G");put(30,"H");put(31,"I");}};
 
     private Inventory makeInventory(String title, int size) {
         return Bukkit.createInventory(null, size, title);
@@ -69,7 +69,7 @@ public class InventoryModule {
             for(int j = i + 2; j < i + 5 ; j++){
                 ItemStack item = inventory.getItem(j);
                 if(item != null){
-                    recipe.put(item.getType().toString(), String.valueOf(j));
+                    recipe.put(item.getType().toString(), data.get(String.valueOf(j)));
                     lineRecipe.append(data.get(j));
                 }else{
                     lineRecipe.append(" ");
