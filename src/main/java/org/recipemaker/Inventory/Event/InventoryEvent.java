@@ -8,11 +8,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.recipemaker.Inventory.Enum.InventoryName;
 import org.recipemaker.Inventory.Module.InventoryModule;
+import org.recipemaker.Inventory.Module.RecipeModule;
 
 import java.io.IOException;
 
 public class InventoryEvent implements Listener {
     private final InventoryModule inventoryModule = new InventoryModule();
+    private final RecipeModule recipeModule = new RecipeModule();
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) throws IOException {
 
@@ -25,7 +27,7 @@ public class InventoryEvent implements Listener {
                     }
                     case LIME_WOOL -> {
                         event.setCancelled(true);
-                        inventoryModule.setRecipeInInventory(event.getInventory());
+                        recipeModule.makeRecipe(event.getInventory());
                         event.getView().close();
                         HumanEntity player = event.getView().getPlayer();
                         player.sendMessage(ChatColor.AQUA + "새로운 레시피가 등록되었습니다.");

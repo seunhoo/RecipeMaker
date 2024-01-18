@@ -9,11 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import org.recipemaker.Inventory.Command.InventoryCommand;
 import org.recipemaker.Inventory.Event.InventoryEvent;
 import org.recipemaker.Inventory.Module.InventoryModule;
+import org.recipemaker.Inventory.Module.RecipeModule;
 
 public final class RecipeMaker extends JavaPlugin {
     private static Plugin plugin;
     private BukkitAudiences adventure;
-    private InventoryModule inventoryModule = new InventoryModule();
+    private final RecipeModule recipeModule = new RecipeModule();
 
     public static Plugin getPlugin() {
         return plugin;
@@ -29,7 +30,7 @@ public final class RecipeMaker extends JavaPlugin {
         plugin = this;
         // Plugin startup logic
         this.adventure = BukkitAudiences.create(this);
-        inventoryModule.getRecipeInConfig();
+        recipeModule.getRecipeInConfig();
 
         InventoryCommand inventoryCommand = new InventoryCommand(this);
         getServer().getPluginManager().registerEvents(new InventoryEvent(), this);

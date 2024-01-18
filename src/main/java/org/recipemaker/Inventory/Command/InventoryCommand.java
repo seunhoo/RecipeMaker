@@ -41,6 +41,7 @@ public class InventoryCommand implements CommandExecutor {
     }
 
     public void recipeList(CommandSender sender) {
-
+        Player player = (Player)sender;
+        player.openInventory(inventoryModule.openRecipeListInventory());
     }
 }
