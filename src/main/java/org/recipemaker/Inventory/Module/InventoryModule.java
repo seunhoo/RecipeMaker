@@ -23,7 +23,7 @@ public class InventoryModule {
     int x = 9;
     int y = 5;
     int size = x * y;
-    int resultPosition = y / 2 * x - 2;
+    int resultPosition = (int) Math.ceil((double) y / 2) * x - 3;
     HashMap<Integer, ItemStack> materialPosition = new HashMap<>();
 
     private Inventory makeInventory(String title, int size) {
@@ -33,14 +33,14 @@ public class InventoryModule {
     public Inventory openRecipeMakerInventory() {
 
         Inventory inventory = makeInventory(InventoryName.RECIPE_MAKER.getName(), size);
-        ItemStack itemStack = itemModule.setItem(noneBlock, 1, null);
+        ItemStack itemStack = itemModule.setItem(noneBlock, 1, " ");
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "재료 아이템을 놓으세요!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "만들어질 아이템을 놓으세요!");
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
         }
         for (int i = x; i < size - x; i += x) {
-            for (int j = i + 2; j < i + 5; j++) {
+            for (int j = i + 1; j < i + 4; j++) {
                 materialPosition.put(j, materialItemStack);
                 inventory.setItem(j, materialItemStack);
             }
