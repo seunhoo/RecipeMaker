@@ -5,10 +5,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 import org.recipemaker.RecipeMaker;
 
+import javax.xml.stream.events.Namespace;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class RecipeModule {
     int size = x * y;
     int resultPosition = (int) Math.ceil((double) y / 2) * x - 3;
     public final String mainYmlRecipe = "recipe";
+    private final static HashMap<String, NamespacedKey> recipeNamespaceKey = new HashMap<>();
     HashMap<Integer, String> data = new HashMap<>() {{
         put(11, "A");
         put(12, "B");
@@ -108,8 +111,14 @@ public class RecipeModule {
             recipe.setIngredient(entry.getValue(), entry.getKey());
         }
         RecipeMaker.getPlugin().getServer().addRecipe(recipe);
+        recipeNamespaceKey.put(name, customRecipe);
     }
-    public void getRecipe(Material material){
 
+    public void deleteRecipe(Inventory inventory){
+        FileConfiguration config = RecipeMaker.getPlugin().getConfig();
+        String string = Objects.requireNonNull(inventory.getItem(resultPosition)).getType().toString();
+        config.set(mainYmlRecipe + "." + string, null);
+        NamespacedKey namespacedKey = recipeNamespaceKey.get(string);
+        RecipeMaker.getPlugin().getServer().removeRecipe(namespacedKey);
     }
 }

@@ -18,6 +18,7 @@ public class InventoryModule {
     public static Material noneBlock = Material.BLACK_STAINED_GLASS_PANE;
     public static Material acceptBlock = Material.LIME_WOOL;
     public static Material cancelBlock = Material.RED_WOOL;
+    public static Material deleteBlock = Material.REDSTONE_BLOCK;
     int x = 9;
     int y = 6;
     int size = x * y;
@@ -72,6 +73,7 @@ public class InventoryModule {
         ItemStack materialItemStack = itemModule.setItem(Material.AIR, 1, "이렇게 만들어 졌습니다!");
         ItemStack resultItemStack = itemModule.setItem(Material.AIR, 1, "이렇게 됩니다!");
         ItemStack returnItemStack = itemModule.setItem(cancelBlock, 1, "뒤로가기");
+        ItemStack deleteItemStack = itemModule.setItem(deleteBlock, 1, "삭제하기");
         for (int i = 0; i < size; i++) {
             inventory.setItem(i, itemStack);
         }
@@ -82,7 +84,8 @@ public class InventoryModule {
             }
         }
         inventory.setItem(resultPosition, resultItemStack);
-        inventory.setItem(size - 5, returnItemStack);
+        inventory.setItem(size - 4, returnItemStack);
+        inventory.setItem(size - 6, deleteItemStack);
 
         FileConfiguration config = RecipeMaker.getPlugin().getConfig();
 

@@ -24,36 +24,39 @@ public class InventoryEvent implements Listener {
         String title = event.getView().getTitle();
         ItemStack item = event.getCurrentItem();
         if (item != null) {
-            if (title.equals(InventoryName.RECIPE_MAKER.getName())) {
-                switch (item.getType()) {
-                    case BLACK_STAINED_GLASS_PANE -> {
+            InventoryName inventoryName = InventoryName.getInventoryName(title);
+            switch (inventoryName) {
+                case RECIPE_MAKER -> {
+                    if (item.getType() == InventoryModule.noneBlock) {
                         event.setCancelled(true);
-                    }
-                    case LIME_WOOL -> {
+                    } else if (item.getType() == InventoryModule.acceptBlock) {
                         event.setCancelled(true);
                         recipeModule.makeRecipe(event.getInventory());
                         event.getView().close();
                         HumanEntity player = event.getView().getPlayer();
                         player.sendMessage(ChatColor.AQUA + "새로운 레시피가 등록되었습니다.");
-                    }
-                    case RED_WOOL -> {
+                    } else if (item.getType() == InventoryModule.cancelBlock) {
                         event.setCancelled(true);
                         event.getView().close();
                     }
                 }
-            } else if (title.equals(InventoryName.RECIPE_LIST.getName())) {
-                event.setCancelled(true);
-                Inventory inventory = inventoryModule.openItemRecipe(item.getType());
-                HumanEntity player = event.getView().getPlayer();
-                player.openInventory(inventory);
-            } else if (title.equals(InventoryName.RECIPE_DETAIL.getName())) {
-                event.setCancelled(true);
-                if (item.getType() == InventoryModule.cancelBlock){
-                    event.getView().close();
+                case RECIPE_LIST -> {
+                    event.setCancelled(true);
                     HumanEntity player = event.getView().getPlayer();
-                    player.openInventory(inventoryModule.openRecipeListInventory());
+                    player.openInventory(inventoryModule.openItemRecipe(item.getType()));
+                }
+                case RECIPE_DETAIL -> {
+                    event.setCancelled(true);
+                    if (item.getType() == InventoryModule.cancelBlock) {
+                        event.getView().close();
+                        HumanEntity player = event.getView().getPlayer();
+                        player.openInventory(inventoryModule.openRecipeListInventory());
+                    }else if(item.getType() == InventoryModule.deleteBlock){
+                        recipeModule.deleteRecipe(event.getInventory());
+                    }
                 }
             }
         }
+
     }
 }
