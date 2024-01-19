@@ -25,37 +25,41 @@ public class InventoryEvent implements Listener {
         ItemStack item = event.getCurrentItem();
         if (item != null) {
             InventoryName inventoryName = InventoryName.getInventoryName(title);
-            switch (inventoryName) {
-                case RECIPE_MAKER -> {
-                    if (item.getType() == InventoryModule.noneBlock) {
-                        event.setCancelled(true);
-                    } else if (item.getType() == InventoryModule.acceptBlock) {
-                        event.setCancelled(true);
-                        recipeModule.makeRecipe(event.getInventory());
-                        event.getView().close();
-                        HumanEntity player = event.getView().getPlayer();
-                        player.sendMessage(ChatColor.AQUA + "새로운 레시피가 등록되었습니다.");
-                    } else if (item.getType() == InventoryModule.cancelBlock) {
-                        event.setCancelled(true);
-                        event.getView().close();
+            if (inventoryName != null) {
+                switch (inventoryName) {
+                    case RECIPE_MAKER -> {
+                        if (item.getType() == InventoryModule.noneBlock) {
+                            event.setCancelled(true);
+                        } else if (item.getType() == InventoryModule.acceptBlock) {
+                            event.setCancelled(true);
+                            recipeModule.makeRecipe(event.getInventory());
+                            event.getView().close();
+                            HumanEntity player = event.getView().getPlayer();
+                            player.sendMessage(ChatColor.AQUA + "새로운 레시피가 등록되었습니다.");
+                        } else if (item.getType() == InventoryModule.cancelBlock) {
+                            event.setCancelled(true);
+                            event.getView().close();
+                        }
                     }
-                }
-                case RECIPE_LIST -> {
-                    event.setCancelled(true);
-                    HumanEntity player = event.getView().getPlayer();
-                    player.openInventory(inventoryModule.openItemRecipe(item.getType()));
-                }
-                case RECIPE_DETAIL -> {
-                    event.setCancelled(true);
-                    if (item.getType() == InventoryModule.cancelBlock) {
-                        event.getView().close();
+                    case RECIPE_LIST -> {
+                        event.setCancelled(true);
                         HumanEntity player = event.getView().getPlayer();
-                        player.openInventory(inventoryModule.openRecipeListInventory());
-                    }else if(item.getType() == InventoryModule.deleteBlock){
-                        recipeModule.deleteRecipe(event.getInventory());
+                        player.openInventory(inventoryModule.openItemRecipe(item.getType()));
+                    }
+                    case RECIPE_DETAIL -> {
+                        event.setCancelled(true);
+                        if (item.getType() == InventoryModule.cancelBlock) {
+                            event.getView().close();
+                            HumanEntity player = event.getView().getPlayer();
+                            player.openInventory(inventoryModule.openRecipeListInventory());
+                        } else if (item.getType() == InventoryModule.deleteBlock) {
+                            recipeModule.deleteRecipe(event.getInventory());
+                            event.getView().close();
+                        }
                     }
                 }
             }
+
         }
 
     }
